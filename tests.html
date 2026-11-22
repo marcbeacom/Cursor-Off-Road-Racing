@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Off-Road tests</title>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #f6efe4;
+      color: #2a1c14;
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1 { font-size: 28px; margin-bottom: 4px; }
+    p { color: #5c4636; }
+    button, a {
+      font: inherit;
+      background: #e07a2f;
+      color: #2a160c;
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 14px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    ul { list-style: none; padding: 0; }
+    li { padding: 8px 0; border-bottom: 1px solid rgba(42, 28, 20, 0.12); }
+    .pass { color: #1e6b3a; }
+    .fail { color: #9d1c1c; }
+    .summary { font-weight: 700; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Off-road tests</h1>
+    <p>Collision, lap progress, scoring, vehicle stats, and a simulated lap. No test framework.</p>
+    <p><a href="index.html">Back to the game</a> <button id="again" type="button">Run again</button></p>
+    <p id="summary" class="summary">Running…</p>
+    <ul id="list"></ul>
+  </main>
+  <script type="module">
+    import { runTests } from "./js/tests.js";
+
+    function render() {
+      const results = runTests();
+      const list = document.querySelector("#list");
+      list.replaceChildren();
+      let failed = 0;
+      for (const result of results) {
+        const item = document.createElement("li");
+        item.className = result.pass ? "pass" : "fail";
+        item.textContent = `${result.pass ? "PASS" : "FAIL"}  ${result.name}${result.error ? " — " + result.error : ""}`;
+        if (!result.pass) failed += 1;
+        list.append(item);
+      }
+      const summary = document.querySelector("#summary");
+      summary.textContent = `${results.length - failed} passed, ${failed} failed`;
+      summary.className = failed ? "summary fail" : "summary pass";
+    }
+
+    render();
+    document.querySelector("#again").addEventListener("click", render);
+    window.OffroadTests = { run: runTests };
+  </script>
+</body>
+</html>

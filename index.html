@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cursor Off-Road Racing</title>
+  <meta name="description" content="A short high-desert off-road time trial. Pick a rig, miss the cactus, and set a best time.">
+  <meta name="theme-color" content="#c4845a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23e4c59a' width='32' height='32' rx='6'/%3E%3Cpath fill='%232c6b44' d='M14 26V12h4v14zM10 16h4v-6h3v6h5v3h-3v7h-3v-7h-4z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="view" aria-hidden="true"></canvas>
+  <p id="live" class="sr-only" aria-live="polite"></p>
+
+  <section id="screen-title" class="screen active">
+    <div class="panel title-panel">
+      <p class="eyebrow">High desert time trial</p>
+      <h1>Cursor<br>Off-Road</h1>
+      <p class="lede">Two laps on packed dirt. Rocks and cactus wait on the shoulders, and the sand will not carry your speed.</p>
+      <p class="best">Best time <strong id="title-best">—</strong></p>
+      <button id="btn-start" class="btn primary" type="button">Start race</button>
+      <p id="control-hint" class="hint">WASD or arrow keys. P pauses. M mutes.</p>
+    </div>
+  </section>
+
+  <section id="screen-select" class="screen">
+    <div class="select-head">
+      <button id="btn-back" class="btn secondary" type="button">Back</button>
+      <div>
+        <p class="eyebrow">Choose a rig</p>
+        <h2>Three ways across the wash</h2>
+      </div>
+    </div>
+    <div id="cards" class="cards"></div>
+    <p class="hint select-hint">Keys 1, 2, and 3 start a race.</p>
+  </section>
+
+  <div id="hud" class="hud" hidden>
+    <div class="hud-card"><span>Time</span><strong id="hud-time">0:00.00</strong></div>
+    <div class="hud-card"><span>Lap</span><strong id="hud-lap">1 / 2</strong></div>
+    <div class="hud-card"><span>MPH</span><strong id="hud-speed">0</strong></div>
+    <div class="hud-card hud-hits"><span>Hits</span><strong id="hud-crashes">0</strong></div>
+    <div class="spacer"></div>
+    <button id="btn-mute" class="btn ghost" type="button" aria-pressed="false">Sound</button>
+    <button id="btn-pause" class="btn ghost" type="button">Pause</button>
+  </div>
+
+  <div id="pause-overlay" class="overlay" hidden>
+    <div class="panel">
+      <p class="eyebrow">Hold up</p>
+      <h2>Paused</h2>
+      <div class="actions">
+        <button id="btn-resume" class="btn primary" type="button">Resume</button>
+        <button id="btn-quit" class="btn secondary" type="button">Quit</button>
+      </div>
+    </div>
+  </div>
+
+  <section id="screen-results" class="screen">
+    <div class="panel">
+      <p id="results-headline" class="eyebrow record" hidden>New best time</p>
+      <h2>Finish</h2>
+      <p class="lede" id="results-vehicle">Dune Buggy</p>
+      <dl class="results">
+        <div><dt>Time</dt><dd id="results-time">0:00.00</dd></div>
+        <div><dt>Hits</dt><dd id="results-crashes">0</dd></div>
+        <div><dt>Score</dt><dd id="results-score">0</dd></div>
+        <div><dt>Best</dt><dd id="results-best">—</dd></div>
+      </dl>
+      <div class="actions">
+        <button id="btn-again" class="btn primary" type="button">Race again</button>
+        <button id="btn-change" class="btn secondary" type="button">Change vehicle</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="touch-controls" class="touch-controls" hidden>
+    <div class="steer-cluster">
+      <button type="button" data-touch="left" aria-label="Steer left">Left</button>
+      <button type="button" data-touch="right" aria-label="Steer right">Right</button>
+    </div>
+    <div class="pedal-cluster">
+      <button type="button" data-touch="brake" aria-label="Brake">Brake</button>
+      <button type="button" class="gas" data-touch="gas" aria-label="Gas">Gas</button>
+    </div>
+  </div>
+
+  <!-- Relative module path so GitHub Pages project sites resolve the script. -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
